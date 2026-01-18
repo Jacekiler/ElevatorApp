@@ -1,8 +1,6 @@
 package com.example.elevator.service;
 
 import com.example.elevator.model.Elevator;
-import com.example.elevator.model.ElevatorState;
-import com.example.elevator.model.ElevatorStatus;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,11 +14,19 @@ public class ElevatorService {
     private final List<Elevator> elevators = new ArrayList<>();
     @Value("${elevators.count}")
     private int elevatorCount;
+    @Value("${elevators.minFloor}")
+    private int elevatorMinFloor;
+    @Value("${elevators.maxFloor}")
+    private int elevatorMaxFloor;
 
     @PostConstruct
     private void fill() {
         for(int i=0; i<elevatorCount; i++) {
-            elevators.add(new Elevator(i, 0, ElevatorStatus.OPERATING, ElevatorState.NOT_MOVING));
+            elevators.add(Elevator.builder()
+                    .id(i)
+                    .minFloor(elevatorMinFloor)
+                    .maxFloor(elevatorMaxFloor)
+                    .build());
         }
     }
 

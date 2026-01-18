@@ -12,6 +12,8 @@ class ElevatorMapperTest {
 
     private static final Integer ID = 1;
     private static final Integer FLOOR = 2;
+    private static final Integer MIN_FLOOR = -1;
+    private static final Integer MAX_FLOOR = 3;
     private static final ElevatorStatus STATUS = ElevatorStatus.OPERATING;
     private static final ElevatorState STATE = ElevatorState.MOVING_UP;
 
@@ -22,9 +24,11 @@ class ElevatorMapperTest {
         //given
         var elevator = Elevator.builder()
                 .id(ID)
-                .floor(FLOOR)
-                .status(STATUS)
-                .state(STATE)
+                .currentFloor(FLOOR)
+                .minFloor(MIN_FLOOR)
+                .maxFloor(MAX_FLOOR)
+                .elevatorStatus(STATUS)
+                .elevatorState(STATE)
                 .build();
 
         //when
@@ -34,6 +38,8 @@ class ElevatorMapperTest {
         assertAll(
                 () -> assertEquals(ID, result.getId()),
                 () -> assertEquals(FLOOR, result.getFloor()),
+                () -> assertEquals(MIN_FLOOR, result.getMinFloor()),
+                () -> assertEquals(MAX_FLOOR, result.getMaxFloor()),
                 () -> assertEquals(STATUS, result.getStatus()),
                 () -> assertEquals(STATE, result.getState())
         );

@@ -10,6 +10,8 @@ import lombok.Data;
 public class ElevatorDTO {
     private Integer id;
     private Integer floor;
+    private Integer minFloor;
+    private Integer maxFloor;
     private ElevatorStatus status;
     private ElevatorState state;
 }

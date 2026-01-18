@@ -4,3 +4,5 @@ spring:
 
 elevators:
   count: 7
+  minFloor: 0
+  maxFloor: 7
