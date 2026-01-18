@@ -17,6 +17,7 @@ public class Elevator {
     private ElevatorState elevatorState = ElevatorState.NOT_MOVING;
     @Builder.Default
     private DoorState doorState = DoorState.CLOSED;
+    // todo attach pending requests
 
     public void startOpening() {
         if (canStartOpening()) {
