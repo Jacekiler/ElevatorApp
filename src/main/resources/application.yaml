@@ -1,3 +1,6 @@
 spring:
   application:
     name: elevator
+
+elevators:
+  count: 7
