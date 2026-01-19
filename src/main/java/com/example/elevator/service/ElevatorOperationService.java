@@ -41,9 +41,9 @@ public class ElevatorOperationService {
             throw new IllegalArgumentException("Requested floor is out of elevator's scope");
         }
 
-        if (request >= elevator.getCurrentFloor()) {
+        if (request > elevator.getCurrentFloor() || request == elevator.getCurrentFloor() && elevator.isMovingDown()) {
             elevator.addUpRequest(request);
-        } else {
+        } else if (request < elevator.getCurrentFloor() || request == elevator.getCurrentFloor() && elevator.isMovingUp()){
             elevator.addDownRequest(request);
         }
     }

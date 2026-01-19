@@ -1,7 +1,9 @@
 package com.example.elevator.service;
 
 import com.example.elevator.model.Elevator;
+import com.example.elevator.model.ElevatorEngine;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,10 @@ import java.util.List;
 @Service
 public class ElevatorService {
 
+    @Getter
     private final List<Elevator> elevators = new ArrayList<>();
+    @Getter
+    private final List<ElevatorEngine> engines = new ArrayList<>();
     @Value("${elevators.count}")
     private int elevatorCount;
     @Value("${elevators.minFloor}")
@@ -22,16 +27,14 @@ public class ElevatorService {
     @PostConstruct
     private void fill() {
         for(int i=0; i<elevatorCount; i++) {
-            elevators.add(Elevator.builder()
+            var elevator = Elevator.builder()
                     .id(i)
                     .minFloor(elevatorMinFloor)
                     .maxFloor(elevatorMaxFloor)
-                    .build());
+                    .build();
+            elevators.add(elevator);
+            engines.add(new ElevatorEngine(elevator));
         }
-    }
-
-    public List<Elevator> getElevators() {
-        return elevators;
     }
 
     public Elevator getElevator(Integer id) {

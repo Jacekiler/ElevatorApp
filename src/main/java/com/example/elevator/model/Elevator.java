@@ -33,7 +33,7 @@ public class Elevator {
         }
     }
 
-    private boolean canStartOpening() {
+    public boolean canStartOpening() {
         return isOperating()
                 && (DoorState.CLOSED == doorState || DoorState.CLOSING == doorState);
     }
@@ -44,7 +44,7 @@ public class Elevator {
         }
     }
 
-    private boolean canOpen() {
+    public boolean canOpen() {
         return isOperating() && DoorState.OPENING == doorState;
     }
 
@@ -54,7 +54,7 @@ public class Elevator {
         }
     }
 
-    private boolean canStartClosing() {
+    public boolean canStartClosing() {
         return isOperating() && DoorState.OPENED == doorState;
     }
 
@@ -64,7 +64,7 @@ public class Elevator {
         }
     }
 
-    private boolean canClose() {
+    public boolean canClose() {
         return isOperating() && DoorState.CLOSING == doorState;
     }
 
@@ -74,7 +74,7 @@ public class Elevator {
         }
     }
 
-    private boolean canStartMoving() {
+    public boolean canStartMoving() {
         return isOperating()
                 && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.CLOSED == doorState;
@@ -96,7 +96,7 @@ public class Elevator {
         }
     }
 
-    private boolean canMoveUp() {
+    public boolean canMoveUp() {
         return isOperating()
                 && ElevatorState.MOVING_UP == elevatorState
                 && currentFloor < maxFloor;
@@ -108,22 +108,42 @@ public class Elevator {
         }
     }
 
-    private boolean canMoveDown() {
+    public boolean canMoveDown() {
         return isOperating()
                 && ElevatorState.MOVING_DOWN == elevatorState
                 && currentFloor > minFloor;
     }
 
-    private boolean isOperating() {
+    public boolean isOperating() {
         return ElevatorStatus.OPERATING == elevatorStatus;
+    }
+
+    public boolean isMovingUp() {
+        return ElevatorState.MOVING_UP == elevatorState;
+    }
+
+    public boolean isMovingDown() {
+        return ElevatorState.MOVING_DOWN == elevatorState;
+    }
+
+    public boolean isMoving() {
+        return isMovingUp() || isMovingDown();
     }
 
     public void addUpRequest(int request) {
         upRequests.add(request);
     }
 
+    public void removeUpRequest() {
+        upRequests.pollFirst();
+    }
+
     public void addDownRequest(int request) {
         downRequests.add(request);
+    }
+
+    public void removeDownRequest() {
+        downRequests.pollLast();
     }
 
     public List<Integer> getUpRequests() {
