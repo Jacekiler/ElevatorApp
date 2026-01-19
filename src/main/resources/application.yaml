@@ -3,6 +3,6 @@ spring:
     name: elevator
 
 elevators:
-  count: 7
-  minFloor: 0
-  maxFloor: 7
+  count: 3
+  minFloor: -2
+  maxFloor: 4

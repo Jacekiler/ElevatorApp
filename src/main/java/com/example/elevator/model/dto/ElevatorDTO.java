@@ -5,6 +5,8 @@ import com.example.elevator.model.ElevatorStatus;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class ElevatorDTO {
@@ -14,4 +16,5 @@ public class ElevatorDTO {
     private Integer maxFloor;
     private ElevatorStatus status;
     private ElevatorState state;
+    private List<Integer> requests;
 }

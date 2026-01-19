@@ -3,6 +3,11 @@ package com.example.elevator.model;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.concurrent.ConcurrentSkipListSet;
+
 @Getter
 @Builder
 public class Elevator {
@@ -17,7 +22,10 @@ public class Elevator {
     private ElevatorState elevatorState = ElevatorState.NOT_MOVING;
     @Builder.Default
     private DoorState doorState = DoorState.CLOSED;
-    // todo attach pending requests
+    @Builder.Default
+    private NavigableSet<Integer> upRequests = new ConcurrentSkipListSet<>();
+    @Builder.Default
+    private NavigableSet<Integer> downRequests = new ConcurrentSkipListSet<>();
 
     public void startOpening() {
         if (canStartOpening()) {
@@ -108,5 +116,21 @@ public class Elevator {
 
     private boolean isOperating() {
         return ElevatorStatus.OPERATING == elevatorStatus;
+    }
+
+    public void addUpRequest(int request) {
+        upRequests.add(request);
+    }
+
+    public void addDownRequest(int request) {
+        downRequests.add(request);
+    }
+
+    public List<Integer> getUpRequests() {
+        return upRequests.stream().toList();
+    }
+
+    public List<Integer> getDownRequestsDesc() {
+        return downRequests.stream().sorted(Comparator.reverseOrder()).toList();
     }
 }

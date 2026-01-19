@@ -1,18 +1,31 @@
 package com.example.elevator.service;
 
+import com.example.elevator.model.Elevator;
 import com.example.elevator.model.dto.CallRequestDTO;
 import com.example.elevator.model.dto.SelectRequestDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class ElevatorOperationService {
 
+    private final ElevatorService elevatorService;
+
+    //todo logging
+
     public void call(Integer id, CallRequestDTO callRequestDTO) {
-        // todo
+        log.info("Calling elevator on floor: {}", callRequestDTO.getFloor());
+        var elevator = elevatorService.getElevator(id);
+        addRequest(elevator, callRequestDTO.getFloor());
     }
 
     public void select(Integer id, SelectRequestDTO selectRequestDTO) {
-        // todo
+        log.info("Selected floor: {}", selectRequestDTO.getFloor());
+        var elevator = elevatorService.getElevator(id);
+        addRequest(elevator, selectRequestDTO.getFloor());
     }
 
     public void openDoors(Integer id) {
@@ -21,5 +34,17 @@ public class ElevatorOperationService {
 
     public void closeDoors(Integer id) {
         // todo
+    }
+
+    private void addRequest(Elevator elevator, int request) {
+        if (request > elevator.getMaxFloor() || request < elevator.getMinFloor()){
+            throw new IllegalArgumentException("Requested floor is out of elevator's scope");
+        }
+
+        if (request >= elevator.getCurrentFloor()) {
+            elevator.addUpRequest(request);
+        } else {
+            elevator.addDownRequest(request);
+        }
     }
 }
