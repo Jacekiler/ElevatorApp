@@ -35,6 +35,7 @@ public class Elevator {
 
     public boolean canStartOpening() {
         return isOperating()
+                && ElevatorState.NOT_MOVING == elevatorState
                 && (DoorState.CLOSED == doorState || DoorState.CLOSING == doorState);
     }
 
@@ -45,7 +46,9 @@ public class Elevator {
     }
 
     public boolean canOpen() {
-        return isOperating() && DoorState.OPENING == doorState;
+        return isOperating()
+                && ElevatorState.NOT_MOVING == elevatorState
+                && DoorState.OPENING == doorState;
     }
 
     public void startClosing() {
