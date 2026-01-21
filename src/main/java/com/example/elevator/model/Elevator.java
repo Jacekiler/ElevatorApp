@@ -15,11 +15,11 @@ public class Elevator {
     private Integer minFloor;
     private Integer maxFloor;
     @Builder.Default
-    private Integer currentFloor = 0;
+    private volatile Integer currentFloor = 0;
     @Builder.Default
     private ElevatorStatus elevatorStatus = ElevatorStatus.OPERATING;
     @Builder.Default
-    private ElevatorDirection elevatorDirection = ElevatorDirection.NOT_MOVING;
+    private volatile ElevatorDirection elevatorDirection = ElevatorDirection.NOT_MOVING;
     @Builder.Default
     private DoorState doorState = DoorState.CLOSED;
     @Builder.Default

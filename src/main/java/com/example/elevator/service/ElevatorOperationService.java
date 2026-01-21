@@ -15,13 +15,13 @@ public class ElevatorOperationService {
     private final ElevatorRequestsQueueService requestsQueueService;
 
     public void call(Integer id, CallRequestDTO callRequestDTO) {
-        log.info("Calling elevator on floor: {}", callRequestDTO.getFloor());
+        log.info("Calling elevator {} on floor {}", id, callRequestDTO.getFloor());
         var elevator = elevatorService.getElevator(id);
         requestsQueueService.addCallRequest(elevator, callRequestDTO.getFloor(), callRequestDTO.getDirection());
     }
 
     public void select(Integer id, SelectRequestDTO selectRequestDTO) {
-        log.info("Selected floor: {}", selectRequestDTO.getFloor());
+        log.info("Selected floor {} in elevator {}", selectRequestDTO.getFloor(), id);
         var elevator = elevatorService.getElevator(id);
         requestsQueueService.addSelectRequest(elevator, selectRequestDTO.getFloor());
     }

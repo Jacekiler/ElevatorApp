@@ -32,6 +32,7 @@ public class EngineDoorsService {
 
     private boolean shouldOpenDoorImmediately(OperationalData data, Elevator elevator) {
         if (elevator.isOpenDoorTrigger() && elevator.canStartOpening()) {
+            log.info("Elevator {} - opening doors on request", elevator.getId());
             elevator.startOpening();
             data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES - data.getDoorTimer());
             return true;
@@ -41,6 +42,7 @@ public class EngineDoorsService {
 
     private boolean shouldCloseDoorImmediately(OperationalData data, Elevator elevator) {
         if (elevator.isCloseDoorTrigger() && elevator.canStartClosing()) {
+            log.info("Elevator {} - closing doors on request", elevator.getId());
             elevator.startClosing();
             data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
             data.setOpenDoorTimer(0);
@@ -67,11 +69,9 @@ public class EngineDoorsService {
         return false;
     }
 
-  
-
     private boolean shouldOpenDoors(OperationalData data, Elevator elevator) {
         if (data.getDoorTimer() == 0 && DoorState.OPENING == elevator.getDoorState()) {
-            log.info("Elevator {} - doors are open", elevator.getId());
+            log.info("Elevator {} - doors are opened", elevator.getId());
             elevator.openDoors();
             data.setOpenDoorTimer(OPEN_DOOR_CYCLES);
             return true;
@@ -90,7 +90,7 @@ public class EngineDoorsService {
 
     private boolean areDoorsOpened(OperationalData data, Elevator elevator) {
         if (data.getOpenDoorTimer() > 0 && DoorState.OPENED == elevator.getDoorState()){
-            log.info("Elevator {} - doors remain open", elevator.getId());
+            log.info("Elevator {} - doors remain opened", elevator.getId());
             data.setOpenDoorTimer(data.getOpenDoorTimer() - 1);
             return true;
         }
@@ -99,6 +99,7 @@ public class EngineDoorsService {
 
     private boolean shouldStartClosingDoors(OperationalData data, Elevator elevator) {
         if (data.getOpenDoorTimer() == 0 && DoorState.OPENED == elevator.getDoorState()) {
+            log.info("Elevator {} - start closing doors", elevator.getId());
             elevator.startClosing();
             data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
             return true;

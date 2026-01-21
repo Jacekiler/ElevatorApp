@@ -79,6 +79,8 @@ public class EngineMovementService {
             elevator.removeDownRequest();
         }
         log.info("Elevator {} - reached floor: {}", elevator.getId(), elevator.getCurrentFloor());
+        log.info("Elevator {} - UP queue: {}", elevator.getId(), elevator.getUpRequests());
+        log.info("Elevator {} - DOWN queue: {}", elevator.getId(), elevator.getDownRequests());
         data.setTargetFloor(null);
         elevator.startOpening();
         data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
