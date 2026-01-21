@@ -27,13 +27,13 @@ public class ElevatorRequestsQueueService {
                         || CallDirection.DOWN == direction && !elevator.getUpRequests().isEmpty() && request > elevator.getUpRequests().last()
                 : elevator.isMovingDown() ?
                 CallDirection.UP == direction && !elevator.getDownRequests().isEmpty() && request > elevator.getDownRequests().last()
-                        || CallDirection.DOWN == direction && request > elevator.getCurrentFloor()
+                        || CallDirection.DOWN == direction && request >= elevator.getCurrentFloor()
                 : request > elevator.getCurrentFloor();
     }
 
     private boolean shouldAddDownRequest(Elevator elevator, int request, CallDirection direction) {
         return elevator.isMovingUp() ?
-                CallDirection.UP == direction && request < elevator.getCurrentFloor()
+                CallDirection.UP == direction && request <= elevator.getCurrentFloor()
                         || CallDirection.DOWN == direction && !elevator.getUpRequests().isEmpty() && request < elevator.getUpRequests().last()
                 : elevator.isMovingDown() ?
                 CallDirection.UP == direction && !elevator.getDownRequests().isEmpty() && request < elevator.getDownRequests().last()

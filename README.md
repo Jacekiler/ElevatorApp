@@ -1,6 +1,7 @@
  **Disclaimer:** there is no frontend. I'm not that familiar to do it quick and I don't want to generate it just to have it. I need to trust in my backend and believe that time is important, so I don't delay the task for next days :)
  
 # Assumptions and decisions
+- Multiple elevators in a building, separated one from each other. 
 - Number of elevators, minimum and maximum floor can be configured in application.yaml.
 - Also number of threads working on elevators operations can be set.
 - Each elevator has its own engine which manages the elevator's operations.
@@ -12,7 +13,7 @@
 - API: User can receive states of all elevators.
 - API: User can receive a state of specified elevator by id
 - Elevator state is important only in the lifecyle of the system, so there is no need for database in my opinion.
-- 
+- Elevator.upRequest, Elevator.downRequests - direction from elevator perspective
 
 
 # To run application

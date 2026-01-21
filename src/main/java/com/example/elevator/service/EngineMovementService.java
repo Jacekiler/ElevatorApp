@@ -82,6 +82,7 @@ public class EngineMovementService {
         log.info("Elevator {} - UP queue: {}", elevator.getId(), elevator.getUpRequests());
         log.info("Elevator {} - DOWN queue: {}", elevator.getId(), elevator.getDownRequests());
         data.setTargetFloor(null);
+        elevator.stop();
         elevator.startOpening();
         data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
     }
