@@ -14,19 +14,19 @@ import static com.example.elevator.model.ElevatorEngine.ONE_FLOOR_UP_DOWN_MOVEME
 public class EngineMovementService {
 
     public boolean manageMovement(OperationalData data, Elevator elevator) {
-        updateDirection(elevator);
+        checkEndOfDirection(elevator);
         if (isElevatorMoving(data, elevator)) return true;
         if (shouldProcessMovingOneFloor(data, elevator)) return true;
         if (shouldStartMoving(data, elevator)) return true;
         return false;
     }
 
-    private void updateDirection(Elevator elevator) {
-        if (elevator.isMovingUp() && elevator.getUpRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMaxFloor())) {
+    private void checkEndOfDirection(Elevator elevator) {
+        if (elevator.isMovingUp() && (elevator.getUpRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMaxFloor()))) {
             elevator.stop();
         }
 
-        if (elevator.isMovingDown() && elevator.getDownRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMinFloor())) {
+        if (elevator.isMovingDown() && (elevator.getDownRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMinFloor()))) {
             elevator.stop();
             return;
         }
