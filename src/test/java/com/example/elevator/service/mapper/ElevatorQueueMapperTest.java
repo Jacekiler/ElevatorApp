@@ -4,6 +4,8 @@ import com.example.elevator.model.Elevator;
 import com.example.elevator.model.ElevatorDirection;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ElevatorQueueMapperTest {
@@ -14,7 +16,7 @@ class ElevatorQueueMapperTest {
     public void movingUp() {
         //given
         var elevator = Elevator.builder()
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.MOVING_UP)
                 .build();
         elevator.addUpRequest(4);
@@ -37,7 +39,7 @@ class ElevatorQueueMapperTest {
     public void movingDown() {
         //given
         var elevator = Elevator.builder()
-                .currentFloor(2)
+                .currentFloor(new AtomicInteger(2))
                 .elevatorDirection(ElevatorDirection.MOVING_DOWN)
                 .build();
         elevator.addUpRequest(4);
@@ -60,7 +62,7 @@ class ElevatorQueueMapperTest {
     public void notMovingPickUpFirst() {
         //given
         var elevator = Elevator.builder()
-                .currentFloor(2)
+                .currentFloor(new AtomicInteger(2))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
         elevator.addUpRequest(4);
@@ -83,7 +85,7 @@ class ElevatorQueueMapperTest {
     public void notMovingPickDownFirst() {
         //given
         var elevator = Elevator.builder()
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
         elevator.addUpRequest(4);

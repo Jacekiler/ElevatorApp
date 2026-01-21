@@ -5,6 +5,8 @@ import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.OperationalData;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -18,7 +20,7 @@ class EngineTargetServiceTest {
         var data = new OperationalData();
         var expectedTarget = 2;
         var elevator = Elevator.builder()
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.MOVING_UP)
                 .build();
         elevator.addUpRequest(3);
@@ -38,7 +40,7 @@ class EngineTargetServiceTest {
         //given
         var data = new OperationalData();
         var elevator = Elevator.builder()
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.MOVING_UP)
                 .build();
         elevator.addDownRequest(1);
@@ -57,7 +59,7 @@ class EngineTargetServiceTest {
         var data = new OperationalData();
         var expectedTarget = -1;
         var elevator = Elevator.builder()
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.MOVING_DOWN)
                 .build();
         elevator.addUpRequest(2);
@@ -76,7 +78,7 @@ class EngineTargetServiceTest {
         //given
         var data = new OperationalData();
         var elevator = Elevator.builder()
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.MOVING_DOWN)
                 .build();
         elevator.addUpRequest(2);
@@ -96,7 +98,7 @@ class EngineTargetServiceTest {
         var elevator = Elevator.builder()
                 .maxFloor(5)
                 .minFloor(-2)
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
         elevator.addUpRequest(3);
@@ -119,7 +121,7 @@ class EngineTargetServiceTest {
         var elevator = Elevator.builder()
                 .maxFloor(5)
                 .minFloor(-2)
-                .currentFloor(2)
+                .currentFloor(new AtomicInteger(2))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
         elevator.addUpRequest(3);
@@ -141,7 +143,7 @@ class EngineTargetServiceTest {
         var elevator = Elevator.builder()
                 .maxFloor(5)
                 .minFloor(-2)
-                .currentFloor(2)
+                .currentFloor(new AtomicInteger(2))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
 
@@ -159,7 +161,7 @@ class EngineTargetServiceTest {
         var elevator = Elevator.builder()
                 .maxFloor(5)
                 .minFloor(-2)
-                .currentFloor(2)
+                .currentFloor(new AtomicInteger(2))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
         elevator.addUpRequest(3);
@@ -178,7 +180,7 @@ class EngineTargetServiceTest {
         var elevator = Elevator.builder()
                 .maxFloor(5)
                 .minFloor(-2)
-                .currentFloor(2)
+                .currentFloor(new AtomicInteger(2))
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();
         elevator.addDownRequest(1);

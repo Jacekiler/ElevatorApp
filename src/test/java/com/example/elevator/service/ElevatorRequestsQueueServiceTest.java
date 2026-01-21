@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static com.example.elevator.model.ElevatorDirection.*;
@@ -78,7 +79,7 @@ class ElevatorRequestsQueueServiceTest {
 
     private static Elevator buildElevator(ElevatorDirection direction, int currFloor, List<Integer> upQueue, List<Integer> downQueue) {
         var elevator = Elevator.builder()
-                .currentFloor(currFloor)
+                .currentFloor(new AtomicInteger(currFloor))
                 .elevatorDirection(direction)
                 .build();
         upQueue.forEach(elevator::addUpRequest);
@@ -90,7 +91,6 @@ class ElevatorRequestsQueueServiceTest {
     public void addSelectedUpRequest() {
         //given
         var elevator = Elevator.builder()
-                .currentFloor(0)
                 .build();
         var request = 3;
 
@@ -108,7 +108,6 @@ class ElevatorRequestsQueueServiceTest {
     public void addSelectedDownRequest() {
         //given
         var elevator = Elevator.builder()
-                .currentFloor(0)
                 .build();
         var request = -1;
 

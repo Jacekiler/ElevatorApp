@@ -6,6 +6,8 @@ import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.OperationalData;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static com.example.elevator.model.ElevatorEngine.DOOR_OPEN_CLOSE_CYCLES;
 import static com.example.elevator.model.ElevatorEngine.ONE_FLOOR_UP_DOWN_MOVEMENT_CYCLES;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,7 +69,7 @@ class EngineMovementServiceTest {
         //given
         var elevator = Elevator.builder()
                 .id(1)
-                .currentFloor(1)
+                .currentFloor(new AtomicInteger(1))
                 .maxFloor(5)
                 .elevatorDirection(ElevatorDirection.MOVING_UP)
                 .build();
@@ -92,7 +94,7 @@ class EngineMovementServiceTest {
         //given
         var elevator = Elevator.builder()
                 .id(1)
-                .currentFloor(3)
+                .currentFloor(new AtomicInteger(3))
                 .maxFloor(5)
                 .elevatorDirection(ElevatorDirection.MOVING_UP)
                 .build();
@@ -117,7 +119,7 @@ class EngineMovementServiceTest {
         //given
         var elevator = Elevator.builder()
                 .id(1)
-                .currentFloor(3)
+                .currentFloor(new AtomicInteger(3))
                 .maxFloor(5)
                 .elevatorDirection(ElevatorDirection.NOT_MOVING)
                 .build();

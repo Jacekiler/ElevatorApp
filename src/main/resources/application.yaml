@@ -3,7 +3,7 @@ spring:
     name: elevator
 
 elevators:
-  count: 1
+  count: 3
   minFloor: -2
   maxFloor: 4
   threadPool:

@@ -68,7 +68,7 @@ class ElevatorOperationServiceTest {
         service.openDoors(id);
 
         //then
-        assertTrue(elevator.isOpenDoorTrigger());
+        assertTrue(elevator.consumeOpenDoorTrigger());
     }
 
     @Test
@@ -82,6 +82,6 @@ class ElevatorOperationServiceTest {
         service.closeDoors(id);
 
         //then
-        assertTrue(elevator.isCloseDoorTrigger());
+        assertTrue(elevator.consumeCloseDoorTrigger());
     }
 }

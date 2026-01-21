@@ -6,6 +6,8 @@ import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.OperationalData;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static com.example.elevator.model.ElevatorEngine.DOOR_OPEN_CLOSE_CYCLES;
 import static com.example.elevator.model.ElevatorEngine.OPEN_DOOR_CYCLES;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +21,8 @@ class EngineDoorsServiceTest {
         //given
         var data = new OperationalData();
         var elevator = Elevator.builder()
-                .openDoorTrigger(true)
+                .openDoorTrigger(new AtomicBoolean(true))
+//                .openDoorTrigger(true)
                 .doorState(DoorState.CLOSING)
                 .build();
 
@@ -28,8 +31,8 @@ class EngineDoorsServiceTest {
 
         //then
         assertTrue(result);
-        assertFalse(elevator.isOpenDoorTrigger());
-        assertFalse(elevator.isCloseDoorTrigger());
+        assertFalse(elevator.consumeOpenDoorTrigger());
+        assertFalse(elevator.consumeCloseDoorTrigger());
         assertEquals(DoorState.OPENING, elevator.getDoorState());
         assertEquals(DOOR_OPEN_CLOSE_CYCLES, data.getDoorTimer());
     }

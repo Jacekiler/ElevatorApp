@@ -4,9 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Builder
@@ -14,8 +15,9 @@ public class Elevator {
     private Integer id;
     private Integer minFloor;
     private Integer maxFloor;
+
     @Builder.Default
-    private volatile Integer currentFloor = 0;
+    private AtomicInteger currentFloor = new AtomicInteger(0);
     @Builder.Default
     private ElevatorStatus elevatorStatus = ElevatorStatus.OPERATING;
     @Builder.Default
@@ -27,8 +29,22 @@ public class Elevator {
     @Builder.Default
     private NavigableSet<Integer> downRequests = new ConcurrentSkipListSet<>(Comparator.reverseOrder());
 
-    private volatile boolean openDoorTrigger;
-    private volatile boolean closeDoorTrigger;
+    @Builder.Default
+    private AtomicBoolean openDoorTrigger = new AtomicBoolean(false);
+    @Builder.Default
+    private AtomicBoolean closeDoorTrigger = new AtomicBoolean(false);
+
+    public Integer getCurrentFloor() {
+        return currentFloor.get();
+    }
+
+    public boolean consumeOpenDoorTrigger() {
+        return openDoorTrigger.getAndSet(false);
+    }
+
+    public boolean consumeCloseDoorTrigger() {
+        return closeDoorTrigger.getAndSet(false);
+    }
 
     public void startOpening() {
         if (canStartOpening()) {
@@ -96,26 +112,26 @@ public class Elevator {
 
     public void moveOneUp() {
         if (canMoveUp()) {
-            currentFloor++;
+            currentFloor.incrementAndGet();
         }
     }
 
     public boolean canMoveUp() {
         return isOperating()
                 && ElevatorDirection.MOVING_UP == elevatorDirection
-                && currentFloor < maxFloor;
+                && currentFloor.get() < maxFloor;
     }
 
     public void moveOneDown() {
         if(canMoveDown()) {
-            currentFloor--;
+            currentFloor.decrementAndGet();
         }
     }
 
     public boolean canMoveDown() {
         return isOperating()
                 && ElevatorDirection.MOVING_DOWN == elevatorDirection
-                && currentFloor > minFloor;
+                && currentFloor.get() > minFloor;
     }
 
     public boolean isOperating() {
@@ -151,15 +167,15 @@ public class Elevator {
     }
 
     public void triggerOpenDoor() {
-        openDoorTrigger = true;
+        openDoorTrigger.set(true);
     }
 
     public void triggerCloseDoor() {
-        closeDoorTrigger = true;
+        closeDoorTrigger.set(true);
     }
 
     public void clearDoorTriggers() {
-        openDoorTrigger = false;
-        closeDoorTrigger = false;
+        openDoorTrigger.getAndSet(false);
+        closeDoorTrigger.getAndSet(false);
     }
 }

@@ -31,7 +31,7 @@ public class EngineDoorsService {
     }
 
     private boolean shouldOpenDoorImmediately(OperationalData data, Elevator elevator) {
-        if (elevator.isOpenDoorTrigger() && elevator.canStartOpening()) {
+        if (elevator.consumeOpenDoorTrigger() && elevator.canStartOpening()) {
             log.info("Elevator {} - opening doors on request", elevator.getId());
             elevator.startOpening();
             data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES - data.getDoorTimer());
@@ -41,7 +41,7 @@ public class EngineDoorsService {
     }
 
     private boolean shouldCloseDoorImmediately(OperationalData data, Elevator elevator) {
-        if (elevator.isCloseDoorTrigger() && elevator.canStartClosing()) {
+        if (elevator.consumeCloseDoorTrigger() && elevator.canStartClosing()) {
             log.info("Elevator {} - closing doors on request", elevator.getId());
             elevator.startClosing();
             data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);

@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 class ElevatorMapperTest {
 
     private static final Integer ID = 1;
-    private static final Integer FLOOR = 2;
+    private static final AtomicInteger FLOOR = new AtomicInteger(2);
     private static final Integer MIN_FLOOR = -1;
     private static final Integer MAX_FLOOR = 3;
     private static final ElevatorStatus STATUS = ElevatorStatus.OPERATING;
@@ -54,7 +55,7 @@ class ElevatorMapperTest {
         //then
         assertAll(
                 () -> assertEquals(ID, result.getId()),
-                () -> assertEquals(FLOOR, result.getFloor()),
+                () -> assertEquals(FLOOR.get(), result.getFloor()),
                 () -> assertEquals(MIN_FLOOR, result.getMinFloor()),
                 () -> assertEquals(MAX_FLOOR, result.getMaxFloor()),
                 () -> assertEquals(STATUS, result.getStatus()),
