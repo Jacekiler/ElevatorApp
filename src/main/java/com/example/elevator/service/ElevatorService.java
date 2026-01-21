@@ -4,6 +4,7 @@ import com.example.elevator.model.Elevator;
 import com.example.elevator.model.ElevatorEngine;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ElevatorService {
+
+    private final ElevatorEngineFactory engineFactory;
 
     @Getter
     private final List<Elevator> elevators = new ArrayList<>();
@@ -33,7 +37,7 @@ public class ElevatorService {
                     .maxFloor(elevatorMaxFloor)
                     .build();
             elevators.add(elevator);
-            engines.add(new ElevatorEngine(elevator));
+            engines.add(engineFactory.create(elevator));
         }
     }
 
