@@ -25,7 +25,7 @@ public class ElevatorQueueMapper {
     }
 
     private List<Integer> concatNotMoving(Elevator elevator) {
-        // todo refactor?
+        // todo check that against EngineTargetService?
         if (shouldDetermineDirection(elevator)) {
             return shouldMoveUp(elevator)
                     ? concatRequests(elevator.getUpRequests(), elevator.getDownRequestsDesc())
