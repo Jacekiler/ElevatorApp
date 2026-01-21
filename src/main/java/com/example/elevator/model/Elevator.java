@@ -27,8 +27,8 @@ public class Elevator {
     @Builder.Default
     private NavigableSet<Integer> downRequests = new ConcurrentSkipListSet<>(Comparator.reverseOrder());
 
-    private volatile boolean openDoorTrigger = false;
-    private volatile boolean closeDoorTrigger = false;
+    private volatile boolean openDoorTrigger;
+    private volatile boolean closeDoorTrigger;
 
     public void startOpening() {
         if (canStartOpening()) {
@@ -38,7 +38,6 @@ public class Elevator {
 
     public boolean canStartOpening() {
         return isOperating()
-//                && ElevatorState.NOT_MOVING == elevatorState
                 && (DoorState.CLOSED == doorState || DoorState.CLOSING == doorState);
     }
 
@@ -50,7 +49,6 @@ public class Elevator {
 
     public boolean canOpen() {
         return isOperating()
-//                && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.OPENING == doorState;
     }
 
@@ -62,7 +60,6 @@ public class Elevator {
 
     public boolean canStartClosing() {
         return isOperating()
-//                && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.OPENED == doorState;
     }
 
@@ -84,7 +81,6 @@ public class Elevator {
 
     public boolean canStartMoving() {
         return isOperating()
-//                && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.CLOSED == doorState;
     }
 
@@ -152,14 +148,6 @@ public class Elevator {
 
     public void removeDownRequest() {
         downRequests.pollFirst();
-    }
-
-    public List<Integer> getUpRequestsAsc() {
-        return upRequests.stream().toList();
-    }
-
-    public List<Integer> getDownRequestsDesc() {
-        return downRequests.stream().toList();
     }
 
     public void triggerOpenDoor() {

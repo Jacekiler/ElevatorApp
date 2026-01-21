@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class EngineTargetService {
 
     public void updateTarget(OperationalData data, Elevator elevator) {
-        Integer targetFloor = null;
+        Integer targetFloor;
         if (elevator.isMovingUp()) {
-            targetFloor = !elevator.getUpRequestsAsc().isEmpty() ? elevator.getUpRequestsAsc().get(0) : null;
+            targetFloor = !elevator.getUpRequests().isEmpty() ? elevator.getUpRequests().first() : null;
         } else if (elevator.isMovingDown()) {
-            targetFloor = !elevator.getDownRequestsDesc().isEmpty() ? elevator.getDownRequestsDesc().get(0) : null;
+            targetFloor = !elevator.getDownRequests().isEmpty() ? elevator.getDownRequests().first() : null;
         } else {
             targetFloor = decideMove(elevator);
         }

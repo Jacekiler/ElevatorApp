@@ -75,14 +75,8 @@ public class EngineMovementService {
     private void processGoalFloor(OperationalData data, Elevator elevator) {
         if (elevator.isMovingUp()) {
             elevator.removeUpRequest();
-            log.info("Remove UP");
-            log.info("up: {}", elevator.getUpRequests());
-            log.info("down: {}", elevator.getDownRequests());
         } else {
             elevator.removeDownRequest();
-            log.info("Remove DOWN");
-            log.info("up: {}", elevator.getUpRequests());
-            log.info("down: {}", elevator.getDownRequests());
         }
         log.info("Elevator {} - reached floor: {}", elevator.getId(), elevator.getCurrentFloor());
         data.setTargetFloor(null);

@@ -19,7 +19,7 @@ public class ElevatorMapper {
                 .maxFloor(elevator.getMaxFloor())
                 .status(elevator.getElevatorStatus())
                 .state(elevator.getElevatorDirection())
-                .requests(queueMapper.getRequests(elevator)) // todo update tests
+                .requests(queueMapper.getRequests(elevator))
                 .build();
     }
 }
