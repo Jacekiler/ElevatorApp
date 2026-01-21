@@ -29,11 +29,15 @@ public class ElevatorOperationService {
     }
 
     public void openDoors(Integer id) {
-        // todo
+        log.info("Trying to open doors in elevator {}", id);
+        var elevator = elevatorService.getElevator(id);
+        elevator.triggerOpenDoor();
     }
 
     public void closeDoors(Integer id) {
-        // todo
+        log.info("Trying to close doors in elevator {}", id);
+        var elevator = elevatorService.getElevator(id);
+        elevator.triggerCloseDoor();
     }
 
     private void addRequest(Elevator elevator, int request) {

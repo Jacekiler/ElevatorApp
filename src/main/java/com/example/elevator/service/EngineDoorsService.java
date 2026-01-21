@@ -14,12 +14,38 @@ import static com.example.elevator.model.ElevatorEngine.OPEN_DOOR_CYCLES;
 public class EngineDoorsService {
     
     public boolean manageDoors(OperationalData data, Elevator elevator) {
+        if (shouldHandleDoorTrigger(data, elevator)) return true;
         if (areDoorsOpening(data, elevator)) return true;
         if (areDoorsClosing(data, elevator)) return true;
         if (shouldOpenDoors(data, elevator)) return true;
         if (shouldCloseDoors(data, elevator)) return true;
         if (areDoorsOpened(data, elevator)) return true;
         if (shouldStartClosingDoors(data, elevator)) return true;
+        return false;
+    }
+
+    private boolean shouldHandleDoorTrigger(OperationalData data, Elevator elevator) {
+        var handled = shouldOpenDoorImmediately(data, elevator) || (shouldCloseDoorImmediately(data, elevator));
+        elevator.clearDoorTriggers();
+        return handled;
+    }
+
+    private boolean shouldOpenDoorImmediately(OperationalData data, Elevator elevator) {
+        if (elevator.isOpenDoorTrigger() && elevator.canStartOpening()) {
+            elevator.startOpening();
+            data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES - data.getDoorTimer());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean shouldCloseDoorImmediately(OperationalData data, Elevator elevator) {
+        if (elevator.isCloseDoorTrigger() && elevator.canStartClosing()) {
+            elevator.startClosing();
+            data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
+            data.setOpenDoorTimer(0);
+            return true;
+        }
         return false;
     }
 

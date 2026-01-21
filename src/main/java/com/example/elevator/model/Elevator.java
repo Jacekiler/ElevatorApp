@@ -27,6 +27,9 @@ public class Elevator {
     @Builder.Default
     private NavigableSet<Integer> downRequests = new ConcurrentSkipListSet<>();
 
+    private volatile boolean openDoorTrigger = false;
+    private volatile boolean closeDoorTrigger = false;
+
     public void startOpening() {
         if (canStartOpening()) {
             doorState = DoorState.OPENING;
@@ -58,7 +61,9 @@ public class Elevator {
     }
 
     public boolean canStartClosing() {
-        return isOperating() && DoorState.OPENED == doorState;
+        return isOperating()
+                && ElevatorState.NOT_MOVING == elevatorState
+                && DoorState.OPENED == doorState;
     }
 
     public void closeDoors() {
@@ -155,5 +160,18 @@ public class Elevator {
 
     public List<Integer> getDownRequestsDesc() {
         return downRequests.stream().sorted(Comparator.reverseOrder()).toList();
+    }
+
+    public void triggerOpenDoor() {
+        openDoorTrigger = true;
+    }
+
+    public void triggerCloseDoor() {
+        closeDoorTrigger = true;
+    }
+
+    public void clearDoorTriggers() {
+        openDoorTrigger = false;
+        closeDoorTrigger = false;
     }
 }

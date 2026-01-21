@@ -17,8 +17,8 @@ public class ElevatorEngine {
     private final EngineMonitoringService engineMonitoringService;
     private final EngineMovementService engineMovementService;
 
-    public static final int DOOR_OPEN_CLOSE_CYCLES = 3;
-    public static final int OPEN_DOOR_CYCLES = 4;
+    public static final int DOOR_OPEN_CLOSE_CYCLES = 5;
+    public static final int OPEN_DOOR_CYCLES = 5;
     public static final int ONE_FLOOR_UP_DOWN_MOVEMENT_CYCLES = 5;
 
     private final Elevator elevator;
@@ -27,8 +27,8 @@ public class ElevatorEngine {
     public void runCycle() {
         log.debug("Elevator {} running cycle", elevator.getId());
         if (!engineMonitoringService.isElevatorOperating(elevator)) return;
-        engineTargetService.updateTarget(operationalData, elevator);
         if (engineDoorsService.manageDoors(operationalData, elevator)) return;
+        engineTargetService.updateTarget(operationalData, elevator);
         if (engineMovementService.manageMovement(operationalData, elevator)) return;
     }
 }

@@ -13,6 +13,7 @@ public class EngineMonitoringService {
             return true;
         }
         log.info("Elevator {} - not in operation", elevator.getId());
+        elevator.clearDoorTriggers();
         return false;
     }
 }
