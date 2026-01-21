@@ -12,7 +12,7 @@ public class EngineTargetService {
     public void updateTarget(OperationalData data, Elevator elevator) {
         Integer targetFloor = null;
         if (elevator.isMovingUp()) {
-            targetFloor = !elevator.getUpRequests().isEmpty() ? elevator.getUpRequests().get(0) : null;
+            targetFloor = !elevator.getUpRequestsAsc().isEmpty() ? elevator.getUpRequestsAsc().get(0) : null;
         } else if (elevator.isMovingDown()) {
             targetFloor = !elevator.getDownRequestsDesc().isEmpty() ? elevator.getDownRequestsDesc().get(0) : null;
         } else {
@@ -22,8 +22,8 @@ public class EngineTargetService {
     }
 
     private Integer decideMove(Elevator elevator) {
-        Integer upMove = elevator.getUpRequests().isEmpty() ? null : elevator.getUpRequests().get(0);
-        Integer downMove = elevator.getDownRequestsDesc().isEmpty() ? null : elevator.getDownRequestsDesc().get(0);
+        Integer upMove = elevator.getUpRequests().isEmpty() ? null : elevator.getUpRequests().first();
+        Integer downMove = elevator.getDownRequests().isEmpty() ? null : elevator.getDownRequests().first();
 
         if (upMove == null && downMove == null){
             return null;

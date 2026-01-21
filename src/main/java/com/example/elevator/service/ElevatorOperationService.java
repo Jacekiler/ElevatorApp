@@ -15,19 +15,16 @@ public class ElevatorOperationService {
 
     private final ElevatorService elevatorService;
 
-    //todo logging
-
     public void call(Integer id, CallRequestDTO callRequestDTO) {
         log.info("Calling elevator on floor: {}", callRequestDTO.getFloor());
         var elevator = elevatorService.getElevator(id);
-        addRequest(elevator, callRequestDTO.getFloor(), callRequestDTO.getDirection());
+        addCallRequest(elevator, callRequestDTO.getFloor(), callRequestDTO.getDirection());
     }
 
     public void select(Integer id, SelectRequestDTO selectRequestDTO) {
         log.info("Selected floor: {}", selectRequestDTO.getFloor());
         var elevator = elevatorService.getElevator(id);
-        CallDirection direction = selectRequestDTO.getFloor() > elevator.getCurrentFloor() ? CallDirection.UP : CallDirection.DOWN;
-        addRequest(elevator, selectRequestDTO.getFloor(), direction);
+        addSelectRequest(elevator, selectRequestDTO.getFloor());
     }
 
     public void openDoors(Integer id) {
@@ -42,21 +39,39 @@ public class ElevatorOperationService {
         elevator.triggerCloseDoor();
     }
 
-    private void addRequest(Elevator elevator, int request, CallDirection direction) {
-        if (request > elevator.getMaxFloor() || request < elevator.getMinFloor()){
-            throw new IllegalArgumentException("Requested floor is out of elevator's scope");
-        }
-
-        if (CallDirection.UP == direction) {
+    public void addCallRequest(Elevator elevator, int request, CallDirection direction) {
+        if (shouldAddUpRequest(elevator, request, direction)) {
             elevator.addUpRequest(request);
-        } else {
+        } else if(shouldAddDownRequest(elevator, request, direction)){
             elevator.addDownRequest(request);
         }
+    }
 
-//        if (request > elevator.getCurrentFloor() || request == elevator.getCurrentFloor() && elevator.isMovingDown()) {
-//            elevator.addUpRequest(request);
-//        } else if (request < elevator.getCurrentFloor() || request == elevator.getCurrentFloor() && elevator.isMovingUp()){
-//            elevator.addDownRequest(request);
-//        }
+    private boolean shouldAddUpRequest(Elevator elevator, int request, CallDirection direction) {
+        return elevator.isMovingUp() ?
+                CallDirection.UP == direction && request > elevator.getCurrentFloor()
+                        || CallDirection.DOWN == direction && !elevator.getUpRequests().isEmpty() && request > elevator.getUpRequests().last()
+                : elevator.isMovingDown() ?
+                CallDirection.UP == direction && !elevator.getDownRequests().isEmpty() && request > elevator.getDownRequests().last()
+                        || CallDirection.DOWN == direction && request > elevator.getCurrentFloor()
+                : request > elevator.getCurrentFloor();
+    }
+
+    private boolean shouldAddDownRequest(Elevator elevator, int request, CallDirection direction) {
+        return elevator.isMovingUp() ?
+                CallDirection.UP == direction && request < elevator.getCurrentFloor()
+                        || CallDirection.DOWN == direction && !elevator.getUpRequests().isEmpty() && request < elevator.getUpRequests().last()
+                : elevator.isMovingDown() ?
+                CallDirection.UP == direction && !elevator.getDownRequests().isEmpty() && request < elevator.getDownRequests().last()
+                        || CallDirection.DOWN == direction && request < elevator.getCurrentFloor()
+                : request < elevator.getCurrentFloor();
+    }
+
+    public void addSelectRequest(Elevator elevator, int request) {
+        if (request > elevator.getCurrentFloor()) {
+            elevator.addUpRequest(request);
+        } else if (request < elevator.getCurrentFloor()) {
+            elevator.addDownRequest(request);
+        }
     }
 }

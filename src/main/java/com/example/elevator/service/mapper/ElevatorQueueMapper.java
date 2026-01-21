@@ -12,8 +12,8 @@ public class ElevatorQueueMapper {
     // todo add tests
     public List<Integer> getRequests(Elevator elevator) {
         return switch (elevator.getElevatorDirection()) {
-            case MOVING_UP -> concatRequests(elevator.getUpRequests(), elevator.getDownRequestsDesc());
-            case MOVING_DOWN -> concatRequests(elevator.getDownRequestsDesc(), elevator.getUpRequests());
+            case MOVING_UP -> concatRequests(elevator.getUpRequestsAsc(), elevator.getDownRequestsDesc());
+            case MOVING_DOWN -> concatRequests(elevator.getDownRequestsDesc(), elevator.getUpRequestsAsc());
             default -> concatNotMoving(elevator);
         };
     }
@@ -28,19 +28,19 @@ public class ElevatorQueueMapper {
         // todo check that against EngineTargetService?
         if (shouldDetermineDirection(elevator)) {
             return shouldMoveUp(elevator)
-                    ? concatRequests(elevator.getUpRequests(), elevator.getDownRequestsDesc())
-                    : concatRequests(elevator.getDownRequestsDesc(), elevator.getUpRequests());
+                    ? concatRequests(elevator.getUpRequestsAsc(), elevator.getDownRequestsDesc())
+                    : concatRequests(elevator.getDownRequestsDesc(), elevator.getUpRequestsAsc());
         } else {
-            return concatRequests(elevator.getUpRequests(), elevator.getDownRequestsDesc());
+            return concatRequests(elevator.getUpRequestsAsc(), elevator.getDownRequestsDesc());
         }
     }
 
     private boolean shouldDetermineDirection(Elevator elevator) {
-        return !elevator.getUpRequests().isEmpty() && !elevator.getDownRequestsDesc().isEmpty();
+        return !elevator.getUpRequestsAsc().isEmpty() && !elevator.getDownRequestsDesc().isEmpty();
     }
 
     private boolean shouldMoveUp(Elevator elevator) {
-        return Math.abs(elevator.getUpRequests().get(0) - elevator.getCurrentFloor()) <=
+        return Math.abs(elevator.getUpRequestsAsc().get(0) - elevator.getCurrentFloor()) <=
                 Math.abs(elevator.getCurrentFloor() - elevator.getDownRequestsDesc().get(0));
     }
 

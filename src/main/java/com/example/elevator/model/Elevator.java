@@ -154,7 +154,7 @@ public class Elevator {
         downRequests.pollFirst();
     }
 
-    public List<Integer> getUpRequests() {
+    public List<Integer> getUpRequestsAsc() {
         return upRequests.stream().toList();
     }
 

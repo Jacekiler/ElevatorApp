@@ -23,20 +23,11 @@ public class EngineMovementService {
 
     private void updateDirection(Elevator elevator) {
         if (elevator.isMovingUp() && elevator.getUpRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMaxFloor())) {
-            if (elevator.getDownRequests().isEmpty()){
-                elevator.stop();
-            } else {
-                elevator.startMovingDown();
-            }
-            return;
+            elevator.stop();
         }
 
         if (elevator.isMovingDown() && elevator.getDownRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMinFloor())) {
-            if (elevator.getUpRequests().isEmpty()) {
-                elevator.stop();
-            } else {
-                elevator.startMovingUp();
-            }
+            elevator.stop();
             return;
         }
     }
@@ -74,6 +65,7 @@ public class EngineMovementService {
         } else {
             elevator.moveOneDown();
         }
+        log.info("Current floor: {}", elevator.getCurrentFloor());
     }
 
     private boolean reachedGoalFloor(OperationalData data, Elevator elevator) {
@@ -83,11 +75,16 @@ public class EngineMovementService {
     private void processGoalFloor(OperationalData data, Elevator elevator) {
         if (elevator.isMovingUp()) {
             elevator.removeUpRequest();
+            log.info("Remove UP");
+            log.info("up: {}", elevator.getUpRequests());
+            log.info("down: {}", elevator.getDownRequests());
         } else {
             elevator.removeDownRequest();
+            log.info("Remove DOWN");
+            log.info("up: {}", elevator.getUpRequests());
+            log.info("down: {}", elevator.getDownRequests());
         }
         log.info("Elevator {} - reached floor: {}", elevator.getId(), elevator.getCurrentFloor());
-//        elevator.stop();
         data.setTargetFloor(null);
         elevator.startOpening();
         data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
@@ -111,8 +108,10 @@ public class EngineMovementService {
         log.info("Elevator {} - moving to floor: {}", elevator.getId(), nextFloor);
         if (nextFloor > elevator.getCurrentFloor()) {
             elevator.startMovingUp();
+            log.info("Elevator {} start moving up", elevator.getId());
         } else {
             elevator.startMovingDown();
+            log.info("Elevator {} start moving down", elevator.getId());
         }
         data.setMovementTimer(ONE_FLOOR_UP_DOWN_MOVEMENT_CYCLES);
     }
