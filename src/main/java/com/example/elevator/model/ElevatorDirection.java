@@ -1,6 +1,6 @@
 package com.example.elevator.model;
 
-public enum ElevatorState {
+public enum ElevatorDirection {
     MOVING_UP,
     MOVING_DOWN,
     NOT_MOVING

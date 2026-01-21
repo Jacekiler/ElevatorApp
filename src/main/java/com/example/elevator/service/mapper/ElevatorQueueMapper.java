@@ -11,7 +11,7 @@ public class ElevatorQueueMapper {
 
     // todo add tests
     public List<Integer> getRequests(Elevator elevator) {
-        return switch (elevator.getElevatorState()) {
+        return switch (elevator.getElevatorDirection()) {
             case MOVING_UP -> concatRequests(elevator.getUpRequests(), elevator.getDownRequestsDesc());
             case MOVING_DOWN -> concatRequests(elevator.getDownRequestsDesc(), elevator.getUpRequests());
             default -> concatNotMoving(elevator);

@@ -1,7 +1,7 @@
 package com.example.elevator.service.mapper;
 
 import com.example.elevator.model.Elevator;
-import com.example.elevator.model.ElevatorState;
+import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.ElevatorStatus;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class ElevatorMapperTest {
     private static final Integer MIN_FLOOR = -1;
     private static final Integer MAX_FLOOR = 3;
     private static final ElevatorStatus STATUS = ElevatorStatus.OPERATING;
-    private static final ElevatorState STATE = ElevatorState.MOVING_UP;
+    private static final ElevatorDirection STATE = ElevatorDirection.MOVING_UP;
 
     private final ElevatorMapper elevatorMapper = new ElevatorMapper();
 
@@ -28,7 +28,7 @@ class ElevatorMapperTest {
                 .minFloor(MIN_FLOOR)
                 .maxFloor(MAX_FLOOR)
                 .elevatorStatus(STATUS)
-                .elevatorState(STATE)
+                .elevatorDirection(STATE)
                 .build();
 
         //when

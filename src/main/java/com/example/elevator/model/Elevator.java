@@ -19,13 +19,13 @@ public class Elevator {
     @Builder.Default
     private ElevatorStatus elevatorStatus = ElevatorStatus.OPERATING;
     @Builder.Default
-    private ElevatorState elevatorState = ElevatorState.NOT_MOVING;
+    private ElevatorDirection elevatorDirection = ElevatorDirection.NOT_MOVING;
     @Builder.Default
     private DoorState doorState = DoorState.CLOSED;
     @Builder.Default
     private NavigableSet<Integer> upRequests = new ConcurrentSkipListSet<>();
     @Builder.Default
-    private NavigableSet<Integer> downRequests = new ConcurrentSkipListSet<>();
+    private NavigableSet<Integer> downRequests = new ConcurrentSkipListSet<>(Comparator.reverseOrder());
 
     private volatile boolean openDoorTrigger = false;
     private volatile boolean closeDoorTrigger = false;
@@ -38,7 +38,7 @@ public class Elevator {
 
     public boolean canStartOpening() {
         return isOperating()
-                && ElevatorState.NOT_MOVING == elevatorState
+//                && ElevatorState.NOT_MOVING == elevatorState
                 && (DoorState.CLOSED == doorState || DoorState.CLOSING == doorState);
     }
 
@@ -50,7 +50,7 @@ public class Elevator {
 
     public boolean canOpen() {
         return isOperating()
-                && ElevatorState.NOT_MOVING == elevatorState
+//                && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.OPENING == doorState;
     }
 
@@ -62,7 +62,7 @@ public class Elevator {
 
     public boolean canStartClosing() {
         return isOperating()
-                && ElevatorState.NOT_MOVING == elevatorState
+//                && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.OPENED == doorState;
     }
 
@@ -78,24 +78,24 @@ public class Elevator {
 
     public void startMovingUp() {
         if (canStartMoving()) {
-            elevatorState = ElevatorState.MOVING_UP;
+            elevatorDirection = ElevatorDirection.MOVING_UP;
         }
     }
 
     public boolean canStartMoving() {
         return isOperating()
-                && ElevatorState.NOT_MOVING == elevatorState
+//                && ElevatorState.NOT_MOVING == elevatorState
                 && DoorState.CLOSED == doorState;
     }
 
     public void startMovingDown() {
         if (canStartMoving()) {
-            elevatorState = ElevatorState.MOVING_DOWN;
+            elevatorDirection = ElevatorDirection.MOVING_DOWN;
         }
     }
 
     public void stop() {
-        elevatorState = ElevatorState.NOT_MOVING;
+        elevatorDirection = ElevatorDirection.NOT_MOVING;
     }
 
     public void moveOneUp() {
@@ -106,7 +106,7 @@ public class Elevator {
 
     public boolean canMoveUp() {
         return isOperating()
-                && ElevatorState.MOVING_UP == elevatorState
+                && ElevatorDirection.MOVING_UP == elevatorDirection
                 && currentFloor < maxFloor;
     }
 
@@ -118,7 +118,7 @@ public class Elevator {
 
     public boolean canMoveDown() {
         return isOperating()
-                && ElevatorState.MOVING_DOWN == elevatorState
+                && ElevatorDirection.MOVING_DOWN == elevatorDirection
                 && currentFloor > minFloor;
     }
 
@@ -127,11 +127,11 @@ public class Elevator {
     }
 
     public boolean isMovingUp() {
-        return ElevatorState.MOVING_UP == elevatorState;
+        return ElevatorDirection.MOVING_UP == elevatorDirection;
     }
 
     public boolean isMovingDown() {
-        return ElevatorState.MOVING_DOWN == elevatorState;
+        return ElevatorDirection.MOVING_DOWN == elevatorDirection;
     }
 
     public boolean isMoving() {
@@ -151,7 +151,7 @@ public class Elevator {
     }
 
     public void removeDownRequest() {
-        downRequests.pollLast();
+        downRequests.pollFirst();
     }
 
     public List<Integer> getUpRequests() {
@@ -159,7 +159,7 @@ public class Elevator {
     }
 
     public List<Integer> getDownRequestsDesc() {
-        return downRequests.stream().sorted(Comparator.reverseOrder()).toList();
+        return downRequests.stream().toList();
     }
 
     public void triggerOpenDoor() {

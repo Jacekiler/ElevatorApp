@@ -1,7 +1,7 @@
 package com.example.elevator.service;
 
 import com.example.elevator.model.Elevator;
-import com.example.elevator.model.ElevatorState;
+import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.OperationalData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,31 @@ import static com.example.elevator.model.ElevatorEngine.ONE_FLOOR_UP_DOWN_MOVEME
 public class EngineMovementService {
 
     public boolean manageMovement(OperationalData data, Elevator elevator) {
+        updateDirection(elevator);
         if (isElevatorMoving(data, elevator)) return true;
         if (shouldProcessMovingOneFloor(data, elevator)) return true;
         if (shouldStartMoving(data, elevator)) return true;
         return false;
+    }
+
+    private void updateDirection(Elevator elevator) {
+        if (elevator.isMovingUp() && elevator.getUpRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMaxFloor())) {
+            if (elevator.getDownRequests().isEmpty()){
+                elevator.stop();
+            } else {
+                elevator.startMovingDown();
+            }
+            return;
+        }
+
+        if (elevator.isMovingDown() && elevator.getDownRequests().isEmpty() || elevator.getCurrentFloor().equals(elevator.getMinFloor())) {
+            if (elevator.getUpRequests().isEmpty()) {
+                elevator.stop();
+            } else {
+                elevator.startMovingUp();
+            }
+            return;
+        }
     }
 
     private boolean isElevatorMoving(OperationalData data, Elevator elevator) {
@@ -66,7 +87,7 @@ public class EngineMovementService {
             elevator.removeDownRequest();
         }
         log.info("Elevator {} - reached floor: {}", elevator.getId(), elevator.getCurrentFloor());
-        elevator.stop();
+//        elevator.stop();
         data.setTargetFloor(null);
         elevator.startOpening();
         data.setDoorTimer(DOOR_OPEN_CLOSE_CYCLES);
@@ -78,7 +99,7 @@ public class EngineMovementService {
     }
 
     private boolean shouldStartMoving(OperationalData data, Elevator elevator) {
-        if(data.getTargetFloor() != null && ElevatorState.NOT_MOVING == elevator.getElevatorState()){
+        if(data.getTargetFloor() != null && ElevatorDirection.NOT_MOVING == elevator.getElevatorDirection()){
             startMoving(data, elevator);
             return true;
         }

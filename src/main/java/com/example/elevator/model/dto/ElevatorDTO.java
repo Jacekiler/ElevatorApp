@@ -1,6 +1,6 @@
 package com.example.elevator.model.dto;
 
-import com.example.elevator.model.ElevatorState;
+import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.ElevatorStatus;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +15,6 @@ public class ElevatorDTO {
     private Integer minFloor;
     private Integer maxFloor;
     private ElevatorStatus status;
-    private ElevatorState state;
+    private ElevatorDirection state;
     private List<Integer> requests;
 }
