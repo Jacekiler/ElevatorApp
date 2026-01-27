@@ -1,4 +1,8 @@
- **Disclaimer:** there is no frontend. I'm not that familiar to do it quick and I don't want to generate it just to have it. I need to trust in my backend and believe that time is important, so I don't delay the task for next days :)
+ # Frontend
+After running docker composed services, frontend is served on localhost:4200 (as set in docker-compose.yaml/.env).
+Backend API used in frontend is set as env var in ele_front.env and pass to frontend on runtime.
+Frontend allows to operate on elevators simulator, both as a user inside the elevator as well as a user outside the elevator.
+It shows current floor, nearest target floor and there is a simple open/close door animation.
  
 # Assumptions and decisions
 - Multiple elevators in a building, separated one from each other. 
@@ -16,7 +20,7 @@
 - Elevator.upRequest, Elevator.downRequests - direction from elevator perspective
 
 
-# To run application
+# To run application (backend + frontend)
 1. mvnw clean package
 2. docker compose up
 
