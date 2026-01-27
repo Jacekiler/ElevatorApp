@@ -1,5 +1,6 @@
 package com.example.elevator.model.dto;
 
+import com.example.elevator.model.DoorState;
 import com.example.elevator.model.ElevatorDirection;
 import com.example.elevator.model.ElevatorStatus;
 import lombok.Builder;
@@ -11,10 +12,11 @@ import java.util.List;
 @Builder
 public class ElevatorDTO {
     private Integer id;
-    private Integer floor;
+    private Integer currentFloor;
     private Integer minFloor;
     private Integer maxFloor;
     private ElevatorStatus status;
-    private ElevatorDirection state;
+    private ElevatorDirection direction;
+    private DoorState doorState;
     private List<Integer> requests;
 }

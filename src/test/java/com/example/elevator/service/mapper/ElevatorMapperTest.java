@@ -55,11 +55,11 @@ class ElevatorMapperTest {
         //then
         assertAll(
                 () -> assertEquals(ID, result.getId()),
-                () -> assertEquals(FLOOR.get(), result.getFloor()),
+                () -> assertEquals(FLOOR.get(), result.getCurrentFloor()),
                 () -> assertEquals(MIN_FLOOR, result.getMinFloor()),
                 () -> assertEquals(MAX_FLOOR, result.getMaxFloor()),
                 () -> assertEquals(STATUS, result.getStatus()),
-                () -> assertEquals(STATE, result.getState()),
+                () -> assertEquals(STATE, result.getDirection()),
                 () -> assertEquals(3, result.getRequests().size()),
                 () -> assertEquals(-1, result.getRequests().get(0)),
                 () -> assertEquals(2, result.getRequests().get(1)),

@@ -1,1 +1,60 @@
-<p>building works!</p>
+<h1>Building</h1>
+
+<div class="building">
+  <!-- <div class="floors">
+    @for (floor of floors(); track floor) {
+    <div class="floor">{{ floor }}</div>
+    }
+  </div> -->
+
+  <div class="elevators">
+    @for (e of elevators(); track e.id) {
+    <div class="elevator-column">
+      <div class="elevator-label">Elevator {{ e.id }}</div>
+      <div class="elevator-row">
+        <div class="controls inside">
+          <div>Inside</div>
+          <input type="number" [(ngModel)]="selectedFloor[e.id]"
+            [min]="minFloor()" [max]="maxFloor()" />
+          <button (click)="select(e.id, selectedFloor[e.id])">Select</button>
+
+          <button (click)="openDoors(e.id)">Open</button>
+          <button (click)="closeDoors(e.id)">Close</button>
+        </div>
+
+        <div class="shaft">
+          <div class="target">
+            Target: {{ targetFloor(e) ?? '' }}
+          </div>
+          <div class="current">
+            Current: {{ e.currentFloor }}
+          </div>
+          @for (floor of floors(); track floor) {
+          <div class="cell">
+            <div class="floor-label">{{ floor }}</div>
+            @if (e.currentFloor === floor) {
+            <div class="cab" [style.--progress]="doorProgress()[e.id] ?? 0">
+              <div class="door left"></div>
+              <div class="door right"></div>
+            </div>
+
+            }
+          </div>
+          }
+        </div>
+
+        <div class="controls outside">
+          <div>Outside</div>
+          <input type="number" [(ngModel)]="callFloor[e.id]"
+            [min]="minFloor()" [max]="maxFloor()" />
+          <select [(ngModel)]="callDirection[e.id]">
+            <option value="UP">UP</option>
+            <option value="DOWN">DOWN</option>
+          </select>
+          <button (click)="call(e.id)">Call</button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

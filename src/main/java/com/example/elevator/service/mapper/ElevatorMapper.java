@@ -14,11 +14,12 @@ public class ElevatorMapper {
     public ElevatorDTO toDto(Elevator elevator) {
         return ElevatorDTO.builder()
                 .id(elevator.getId())
-                .floor(elevator.getCurrentFloor())
+                .currentFloor(elevator.getCurrentFloor())
                 .minFloor(elevator.getMinFloor())
                 .maxFloor(elevator.getMaxFloor())
                 .status(elevator.getElevatorStatus())
-                .state(elevator.getElevatorDirection())
+                .direction(elevator.getElevatorDirection())
+                .doorState(elevator.getDoorState())
                 .requests(queueMapper.getRequests(elevator))
                 .build();
     }

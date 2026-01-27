@@ -18,8 +18,8 @@ public class ElevatorEngine {
     private final EngineMonitoringService engineMonitoringService;
     private final EngineMovementService engineMovementService;
 
-    public static final int DOOR_OPEN_CLOSE_CYCLES = 2;
-    public static final int OPEN_DOOR_CYCLES = 2;
+    public static final int DOOR_OPEN_CLOSE_CYCLES = 5;
+    public static final int OPEN_DOOR_CYCLES = 4;
     public static final int ONE_FLOOR_UP_DOWN_MOVEMENT_CYCLES = 4;
 
     private final Elevator elevator;
