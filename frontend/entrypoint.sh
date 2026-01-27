@@ -21,4 +21,4 @@ echo "env.js generated:"
 cat /app/dist/env.js
 
 echo "Starting http-server..."
-http-server /app/dist -p 8080
+http-server /app/dist -p 8080 --spa

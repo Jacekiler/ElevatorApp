@@ -7,7 +7,7 @@ import { ElevatorModel } from '../models/elevator.model';
   providedIn: 'root'
 })
 export class ElevatorService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = (window as any).__env.BACKEND_API_URL;
 
   constructor(private http: HttpClient) {}
 

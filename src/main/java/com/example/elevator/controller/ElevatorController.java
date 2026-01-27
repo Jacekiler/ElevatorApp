@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/elevators")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200") //todo
+@CrossOrigin(origins = "http://localhost:4200")
 public class ElevatorController {
 
     private final ElevatorStateService elevatorStateService;

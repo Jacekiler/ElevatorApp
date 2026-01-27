@@ -1,11 +1,6 @@
 <h1>Building</h1>
 
 <div class="building">
-  <!-- <div class="floors">
-    @for (floor of floors(); track floor) {
-    <div class="floor">{{ floor }}</div>
-    }
-  </div> -->
 
   <div class="elevators">
     @for (e of elevators(); track e.id) {
@@ -33,7 +28,7 @@
           <div class="cell">
             <div class="floor-label">{{ floor }}</div>
             @if (e.currentFloor === floor) {
-            <div class="cab" [style.--progress]="doorProgress()[e.id] ?? 0">
+            <div class="cab" [style.--progress]="doorProgress()[e.id]">
               <div class="door left"></div>
               <div class="door right"></div>
             </div>

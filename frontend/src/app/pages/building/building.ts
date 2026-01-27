@@ -74,8 +74,8 @@ elevators = toSignal(
   this.doorProgress.set(updated);
 }
 
-targetFloor(e: ElevatorModel): number[] | null {
-  return e.requests?.length ? e.requests : null;
+targetFloor(e: ElevatorModel): number | null {
+  return e.requests?.length ? e.requests[0] : null;
 }
 
   select(id: number, floor: number) {
